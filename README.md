@@ -35,7 +35,7 @@ Make sure you have [Node.js](https://nodejs.org/) and [PostgreSQL](https://www.p
 
 1. Clone this repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/daffarivaldi06/Transport-Mobility-Analytics
    cd mobility-api
    ```
 
