@@ -1,0 +1,5 @@
+recorded_at,location,vehicle_type,vehicle_count,average_speed,delay_minutes,congestion_level,latitude,longitude
+2026-05-17T10:00:00+07:00,Jakarta Sudirman,car,1240,21.6,19.4,86,-6.214620,106.845130
+2026-05-17T10:00:00+07:00,Jakarta Sudirman,bus,205,17.2,16.1,82,-6.214620,106.845130
+2026-05-17T10:00:00+07:00,Bandung Dago,motorcycle,1120,33.8,7.2,52,-6.883500,107.609810
+2026-05-17T10:00:00+07:00,Surabaya Basuki Rahmat,truck,250,18.9,18.5,79,-7.265757,112.734146

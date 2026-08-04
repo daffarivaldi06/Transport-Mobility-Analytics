@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: Smart Mobility Analytics API
+  version: 1.0.0
+  description: API for importing transport CSV data and serving dashboard analytics.
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: API status
+  /mobility/import:
+    post:
+      summary: Import transport CSV data
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "201":
+          description: Import result
+  /mobility/summary:
+    get:
+      summary: Dashboard KPI summary
+      parameters:
+        - $ref: "#/components/parameters/startTime"
+        - $ref: "#/components/parameters/endTime"
+        - $ref: "#/components/parameters/location"
+        - $ref: "#/components/parameters/vehicleType"
+      responses:
+        "200":
+          description: KPI summary
+  /mobility/timeseries:
+    get:
+      summary: Hourly vehicles, congestion, and speed
+      parameters:
+        - $ref: "#/components/parameters/startTime"
+        - $ref: "#/components/parameters/endTime"
+        - $ref: "#/components/parameters/location"
+        - $ref: "#/components/parameters/vehicleType"
+      responses:
+        "200":
+          description: Time series points
+  /mobility/locations:
+    get:
+      summary: Aggregated map locations
+      responses:
+        "200":
+          description: Location aggregates
+  /mobility/records:
+    get:
+      summary: Latest transport records
+      parameters:
+        - $ref: "#/components/parameters/startTime"
+        - $ref: "#/components/parameters/endTime"
+        - $ref: "#/components/parameters/location"
+        - $ref: "#/components/parameters/vehicleType"
+      responses:
+        "200":
+          description: Latest records
+components:
+  parameters:
+    startTime:
+      name: startTime
+      in: query
+      schema:
+        type: string
+        format: date-time
+    endTime:
+      name: endTime
+      in: query
+      schema:
+        type: string
+        format: date-time
+    location:
+      name: location
+      in: query
+      schema:
+        type: string
+    vehicleType:
+      name: vehicleType
+      in: query
+      schema:
+        type: string
+        enum: [car, bus, truck, motorcycle, bicycle, van, tram, other]

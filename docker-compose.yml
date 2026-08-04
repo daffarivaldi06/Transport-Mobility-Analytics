@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - PG_HOST=db
+      - PG_PORT=5432
+      - PG_DATABASE=mobility
+      - PG_USER=postgres
+      - PG_PASSWORD=postgres
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:3000/api
+    ports:
+      - "5173:80"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mobility
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
+volumes:
+  db-data:
