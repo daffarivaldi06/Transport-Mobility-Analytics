@@ -1,4 +1,4 @@
-const { parse } = require('csv-parse/sync');
+const { parse } = require('csv-parse');
 const pool = require('../config/db');
 
 const allowedVehicleTypes = new Set(['car', 'bus', 'truck', 'motorcycle', 'bicycle', 'van', 'tram', 'other']);
@@ -152,11 +152,16 @@ const getLocations = async (filters) => {
 };
 
 const importCsv = async (csvText) => {
-  const rows = parse(csvText, {
+  const parser = parse(csvText, {
     columns: true,
     skip_empty_lines: true,
     trim: true
   });
+
+  const rows = [];
+  for await (const row of parser) {
+    rows.push(row);
+  }
 
   if (!rows.length) {
     return { imported: 0 };
