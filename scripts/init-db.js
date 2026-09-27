@@ -8,8 +8,13 @@ dotenv.config();
 const dbHost = process.env.PG_HOST || 'localhost';
 const dbPort = process.env.PG_PORT || 5432;
 const dbUser = process.env.PG_USER || 'postgres';
-const dbPassword = process.env.PG_PASSWORD || 'postgres';
+const dbPassword = process.env.PG_PASSWORD;
 const dbName = process.env.PG_DATABASE || 'mobility';
+
+if (!dbPassword) {
+  console.error('Error: PG_PASSWORD environment variable must be set.');
+  process.exit(1);
+}
 
 async function main() {
   // Step 1: Connect to default 'postgres' database to ensure the target database exists
